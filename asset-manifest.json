@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/GarbageGuardian-FrontEnd/static/css/main.de33f7ed.css",
+    "main.js": "/GarbageGuardian-FrontEnd/static/js/main.836527d3.js",
+    "static/js/453.8ab44547.chunk.js": "/GarbageGuardian-FrontEnd/static/js/453.8ab44547.chunk.js",
+    "index.html": "/GarbageGuardian-FrontEnd/index.html",
+    "main.de33f7ed.css.map": "/GarbageGuardian-FrontEnd/static/css/main.de33f7ed.css.map",
+    "main.836527d3.js.map": "/GarbageGuardian-FrontEnd/static/js/main.836527d3.js.map",
+    "453.8ab44547.chunk.js.map": "/GarbageGuardian-FrontEnd/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.de33f7ed.css",
+    "static/js/main.836527d3.js"
+  ]
+}
