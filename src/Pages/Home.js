@@ -1,0 +1,22 @@
+import React from 'react';
+import Header from '../Components/Header/Header';
+import HeroSection from '../Components/HeroSection/HeroSection';
+import IssuedReport from '../Components/Reports/IssuedReport';
+import Footer from '../Components/Footer/Footer';
+import ChatBot from '../Components/ChatBot/ChatBot'; // Import the ChatBot component
+
+const HomePage = () => {
+  return (
+    <div>
+      <Header />
+      <HeroSection />
+      <div className="mt-8"> 
+        <IssuedReport />
+      </div>
+      <Footer />
+      <ChatBot /> 
+    </div>
+  );
+};
+
+export default HomePage;

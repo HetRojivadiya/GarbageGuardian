@@ -74,7 +74,7 @@ const ReportIssue = () => {
     setError(null);
     setSuccess(false);
 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzA2N2YzYTk5NThjYWUyNDQ4M2E0MTUiLCJpYXQiOjE3Mjg0OTg5NjcsImV4cCI6MTcyODUwMjU2N30.5nS-nAl4tpBVHgBiDzSkj8dtjc2F9jgfrTzmhoNCQAU"; // Replace with your actual token
+    const token = "YOUR_TOKEN_HERE"; // Replace with your actual token
     try {
       const data = new FormData();
       data.append('wasteType', formData.wasteType);
@@ -84,7 +84,7 @@ const ReportIssue = () => {
       data.append('pincode', formData.pincode);
       data.append('harmfulLevel', formData.harmfulLevel);
       data.append('locationLink', formData.locationLink); // Append location link
-      
+
       // Add multiple image files
       for (let i = 0; i < formData.images.length; i++) {
         data.append('images', formData.images[i]);
@@ -107,8 +107,10 @@ const ReportIssue = () => {
 
   return (
     <div className="container mx-auto px-4 mt-8">
-      <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">Report an Issue</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6 space-y-4">
+      <h1 className="text-5xl font-bold text-center my-12 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
+        Report an Issue
+      </h1>
+      <form onSubmit={handleSubmit} className="bg-gray-200 shadow-lg rounded-lg p-6 space-y-4">
         {/* Waste Type */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">Waste Type</label>
@@ -116,7 +118,7 @@ const ReportIssue = () => {
             name="wasteType"
             value={formData.wasteType}
             onChange={handleChange}
-            className="block w-full border rounded-lg p-2"
+            className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
             required
           >
             <option value="">Select waste type</option>
@@ -137,7 +139,7 @@ const ReportIssue = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="block w-full border rounded-lg p-2"
+            className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
             placeholder="Describe the waste issue..."
             required
           ></textarea>
@@ -152,7 +154,7 @@ const ReportIssue = () => {
               name="city"
               value={formData.city}
               onChange={handleChange}
-              className="block w-full border rounded-lg p-2"
+              className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
               required
             />
           </div>
@@ -163,7 +165,7 @@ const ReportIssue = () => {
               name="state"
               value={formData.state}
               onChange={handleChange}
-              className="block w-full border rounded-lg p-2"
+              className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
               required
             />
           </div>
@@ -174,7 +176,7 @@ const ReportIssue = () => {
               name="pincode"
               value={formData.pincode}
               onChange={handleChange}
-              className="block w-full border rounded-lg p-2"
+              className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
               required
             />
           </div>
@@ -187,7 +189,7 @@ const ReportIssue = () => {
             name="harmfulLevel"
             value={formData.harmfulLevel}
             onChange={handleChange}
-            className="block w-full border rounded-lg p-2"
+            className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
             required
           >
             <option value="">Select harmful level</option>
@@ -205,7 +207,7 @@ const ReportIssue = () => {
             name="images"
             multiple
             onChange={handleFileChange}
-            className="block w-full border rounded-lg p-2"
+            className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
             accept="image/*"
           />
         </div>
@@ -215,7 +217,7 @@ const ReportIssue = () => {
           <button
             type="button"
             onClick={getLocation}
-            className={`bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition ${locationLoading ? 'cursor-not-allowed' : ''}`}
+            className={`bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition ${locationLoading ? 'cursor-not-allowed' : ''}`}
             disabled={locationLoading} // Disable button while loading
           >
             {locationLoading ? (
@@ -244,11 +246,8 @@ const ReportIssue = () => {
 
         {/* Display Google Maps Link */}
         {formData.locationLink && (
-          <div className="mt-4">
-            <p><strong>Google Maps Location Link:</strong></p>
-            <a href={formData.locationLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-              {formData.locationLink}
-            </a>
+          <div className="text-green-600 font-semibold">
+            Location Set: <a href={formData.locationLink} target="_blank" rel="noopener noreferrer">View on Google Maps</a>
           </div>
         )}
 
@@ -256,17 +255,16 @@ const ReportIssue = () => {
         <div>
           <button
             type="submit"
-            className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition"
-            disabled={loading}
+            className={`bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition ${loading ? 'cursor-not-allowed' : ''}`}
+            disabled={loading} // Disable button while loading
           >
             {loading ? 'Submitting...' : 'Submit Report'}
           </button>
         </div>
 
-        {/* Success/Error Message */}
-        {success && <p className="text-green-500 mt-4">Report successfully submitted!</p>}
-        {error && <p className="text-red-500 mt-4">Error: {error}</p>}
-        {locationError && <p className="text-red-500 mt-4">Error: {locationError}</p>}
+        {/* Error or Success Messages */}
+        {error && <div className="text-red-600">{error}</div>}
+        {success && <div className="text-green-600">Issue reported successfully!</div>}
       </form>
     </div>
   );

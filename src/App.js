@@ -1,13 +1,18 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './Pages/Home';
+import ReportIssue from './Pages/Report';
 
-import IssueReport from './Components/Reports/issueReport';
-import IssuedReport from './Components/Reports/issuedReport'; // Assuming you place the component in 'components' folder
 
 function App() {
   return (
     <div className="App">
-      <IssueReport/>
-      <IssuedReport />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/report" element={<ReportIssue />} />
+        {/* You can add more routes here */}
+
+      </Routes>
     </div>
   );
 }
