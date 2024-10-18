@@ -5,6 +5,8 @@ const IssuedReport = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedImages, setSelectedImages] = useState({});
+  const [showFullDescription, setShowFullDescription] = useState({});
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -21,8 +23,6 @@ const IssuedReport = () => {
     fetchReports();
   }, []);
 
-  const [selectedImages, setSelectedImages] = useState({});
-
   // Function to handle the image click
   const handleImageClick = (reportId, imageUrl) => {
     setSelectedImages(prevState => ({
@@ -31,20 +31,44 @@ const IssuedReport = () => {
     }));
   };
 
+  // Function to toggle description display
+  const toggleDescription = (reportId) => {
+    setShowFullDescription(prevState => ({
+      ...prevState,
+      [reportId]: !prevState[reportId]
+    }));
+  };
+
+  const getBorderColor = (level) => {
+    switch (level) {
+      case 'High':
+        return 'border-red-500';
+      case 'Moderate':
+        return 'border-yellow-500';
+      case 'Less':
+        return 'border-green-500';
+      default:
+        return 'border-gray-300';
+    }
+  };
+
   if (loading) return <div className="text-center mt-10 text-xl text-blue-500 animate-pulse">Loading...</div>;
   if (error) return <div className="text-center text-red-500 mt-10 text-xl">Error: {error}</div>;
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-5xl font-bold text-center my-12 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
-        Issued Reports
-      </h1>
+
+      <h1 className="text-5xl font-bold text-center mb-6">
+        <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Issued</span>
+         <span className="bg-green-400 text-emerald-950 ml-2 px-2 py-1 rounded-md">Reports!</span>
+    </h1>
+
       {reports.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 mt-4 lg:grid-cols-3 gap-6">
           {reports.map(report => (
             <div
               key={report._id}
-              className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl"
+              className={`bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl ${getBorderColor(report.harmfulLevel)} border-4`} // Border based on harmful level
             >
               {/* Large Image Container */}
               <div className="relative">
@@ -78,9 +102,18 @@ const IssuedReport = () => {
 
               {/* Card Details */}
               <div className="p-4">
-                <p className="text-gray-700 mb-4 text-md">
-                  <span className="font-semibold">Description:</span> {report.description}
+              <p className={`text-gray-700 text-md ${report.description.length < 150 ? 'mb-4' : ''}`}>
+                  <span className="font-semibold">Description:</span> 
+                  {showFullDescription[report._id] ? report.description : `${report.description.slice(0, 150)}...`}
                 </p>
+                {report.description.length > 150 && (
+                  <button
+                    className="text-blue-500 mb-4 underline hover:text-blue-700 transition"
+                    onClick={() => toggleDescription(report._id)}
+                  >
+                    {showFullDescription[report._id] ? 'Show Less' : 'Show More'}
+                  </button>
+                )}
 
                 {/* Google Maps Link */}
                 {report.locationLink && (
@@ -101,8 +134,12 @@ const IssuedReport = () => {
                   <span>Status:</span> {report.status}
                 </p>
                 <p className="text-gray-700 mb-4 text-md">
-                  <span className="font-semibold">Harmful Level:</span> {report.harmfulLevel}
-                </p>
+  <span className="font-semibold">Harmful Level:</span>
+  <span className={`ml-2 px-2 py-1 ${getBorderColor(report.harmfulLevel)} border-2 rounded-lg`}>
+    {report.harmfulLevel}
+  </span>
+</p>
+
                 <p className="text-gray-700 mb-6 text-md">
                   <span className="font-semibold">Issued Date:</span> {new Date(report.issuedDate).toLocaleString()}
                 </p>

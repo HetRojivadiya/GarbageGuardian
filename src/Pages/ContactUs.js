@@ -1,15 +1,15 @@
 import React from 'react';
 import Header from '../Components/Header/Header';
-
+import ContactUs from '../Components/ContactUs/ContactUs';
 import Footer from '../Components/Footer/Footer';
-import ReportIssue from '../Components/Reports/IssueReport';
+
 
 
 const HomePage = () => {
   return (
     <div>
       <Header />
-      <ReportIssue/>
+      <ContactUs/>
       <Footer />
       
     </div>

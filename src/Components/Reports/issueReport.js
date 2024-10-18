@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Modal from './Modal';
 
 const ReportIssue = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const ReportIssue = () => {
   const [success, setSuccess] = useState(false);
   const [locationError, setLocationError] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false); // New state for location loading
+  const [modalOpen, setModalOpen] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
@@ -74,7 +76,7 @@ const ReportIssue = () => {
     setError(null);
     setSuccess(false);
 
-    const token = "YOUR_TOKEN_HERE"; // Replace with your actual token
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzEwOGRlOTdmOGIzNjZjMmViMzRjZDgiLCJpYXQiOjE3MjkxMzgxNzYsImV4cCI6MTcyOTE0MTc3Nn0.iYeJxZbji2N-Dy05IPavZI4ubXAc8isajM7CxzOpJ3c"; // Replace with your actual token
     try {
       const data = new FormData();
       data.append('wasteType', formData.wasteType);
@@ -99,17 +101,24 @@ const ReportIssue = () => {
 
       setSuccess(true);
       setLoading(false);
+      setModalOpen(true);
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
   };
 
+  const closeModal = () => {
+    setModalOpen(false); // Close the modal
+  };
+
   return (
     <div className="container mx-auto px-4 mt-8">
-      <h1 className="text-5xl font-bold text-center my-12 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
-        Report an Issue
-      </h1>
+      <h1 className="text-5xl font-bold text-center mb-6">
+        <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Issue</span>
+        <span className='text-5xl px-2 py-1 font-bold text-center my-12 bg-gradient-to-r from-emerald-800 to-green-600 text-transparent bg-clip-text'>an</span>
+         <span className="bg-green-400 text-emerald-950 ml-1 px-2 py-1 rounded-md">Report</span>
+    </h1>
       <form onSubmit={handleSubmit} className="bg-gray-200 shadow-lg rounded-lg p-6 space-y-4">
         {/* Waste Type */}
         <div>
@@ -217,7 +226,7 @@ const ReportIssue = () => {
           <button
             type="button"
             onClick={getLocation}
-            className={`bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition ${locationLoading ? 'cursor-not-allowed' : ''}`}
+            className={`bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition ${locationLoading ? 'cursor-not-allowed' : ''}`}
             disabled={locationLoading} // Disable button while loading
           >
             {locationLoading ? (
@@ -246,25 +255,28 @@ const ReportIssue = () => {
 
         {/* Display Google Maps Link */}
         {formData.locationLink && (
-          <div className="text-green-600 font-semibold">
+          <div className="text-blue-600 font-semibold">
             Location Set: <a href={formData.locationLink} target="_blank" rel="noopener noreferrer">View on Google Maps</a>
           </div>
         )}
 
         {/* Submit Button */}
-        <div>
+       {/* Submit Button */}
+       <div>
           <button
             type="submit"
             className={`bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition ${loading ? 'cursor-not-allowed' : ''}`}
-            disabled={loading} // Disable button while loading
+            disabled={loading}
           >
             {loading ? 'Submitting...' : 'Submit Report'}
           </button>
         </div>
 
-        {/* Error or Success Messages */}
+        {/* Error and Success Messages */}
         {error && <div className="text-red-600">{error}</div>}
-        {success && <div className="text-green-600">Issue reported successfully!</div>}
+
+        {/* Modal Popup */}
+        <Modal isOpen={modalOpen} onClose={closeModal} message="Issue reported successfully!" />
       </form>
     </div>
   );

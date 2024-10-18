@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import carousel CSS
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 import Image1 from '../../Assets/HeroSection/1.jpg';
 import Image2 from '../../Assets/HeroSection/2.jpg';
@@ -17,7 +18,11 @@ const HeroSection = () => {
       {/* Overlay for Better Text Visibility */}
       <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-transparent opacity-80" />
       <div className="container mx-auto text-center relative z-10 py-12"> {/* Reduced padding */}
-        <h1 className="text-5xl font-bold text-green-800 mb-4 drop-shadow-lg">Building Today, For Tommorow</h1> {/* Reduced font size */}
+      <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">
+      <span className="text-emerald-800">Building Today,</span>
+      <span className="text-green-600"> For Tomorrow</span>
+</h1>
+
         <p className="mt-2 text-lg text-green-800 mb-6 drop-shadow-lg">Report waste, recycle, and make your community a better place.</p> {/* Reduced margin bottom */}
 
         {/* Image Carousel */}
@@ -45,9 +50,7 @@ const HeroSection = () => {
         {/* Call to Action with Enhanced Styles */}
         <div className="mt-6 flex justify-center space-x-6"> {/* Reduced margin top */}
           <Link to="/report" className="bg-green-600 text-white px-6 py-3 rounded-full shadow-lg transform transition-transform duration-300 hover:bg-green-700 flex items-center"> {/* Reduced padding */}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M11 2a1 1 0 011 1v8h8a1 1 0 110 2h-8v8a1 1 0 01-2 0v-8H3a1 1 0 110-2h8V3a1 1 0 011-1z" />
-            </svg>
+          <FaExclamationTriangle className="mr-1" />
             Report an Issue
           </Link>
 

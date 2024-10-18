@@ -3,7 +3,7 @@ import Header from '../Components/Header/Header';
 import HeroSection from '../Components/HeroSection/HeroSection';
 import IssuedReport from '../Components/Reports/IssuedReport';
 import Footer from '../Components/Footer/Footer';
-import ChatBot from '../Components/ChatBot/ChatBot'; // Import the ChatBot component
+import ChatBot from '../Components/ChatBot/ChatBot'; 
 
 const HomePage = () => {
   return (
