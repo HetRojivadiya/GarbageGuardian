@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/GarbageGuardian-FrontEnd/static/css/main.3b9a8115.css",
-    "main.js": "/GarbageGuardian-FrontEnd/static/js/main.4a95dc91.js",
+    "main.css": "/GarbageGuardian-FrontEnd/static/css/main.f608dac2.css",
+    "main.js": "/GarbageGuardian-FrontEnd/static/js/main.e56a6452.js",
     "static/js/453.8ab44547.chunk.js": "/GarbageGuardian-FrontEnd/static/js/453.8ab44547.chunk.js",
     "static/media/1.jpg": "/GarbageGuardian-FrontEnd/static/media/1.85c76ed30e9fc56ea801.jpg",
     "static/media/2.jpg": "/GarbageGuardian-FrontEnd/static/media/2.6d8ff8d467c7c0028c2f.jpg",
@@ -9,12 +9,12 @@
     "static/media/4.jpg": "/GarbageGuardian-FrontEnd/static/media/4.72c27b504efcf968be97.jpg",
     "static/media/success.gif": "/GarbageGuardian-FrontEnd/static/media/success.1f9f638ac2365edaf97a.gif",
     "index.html": "/GarbageGuardian-FrontEnd/index.html",
-    "main.3b9a8115.css.map": "/GarbageGuardian-FrontEnd/static/css/main.3b9a8115.css.map",
-    "main.4a95dc91.js.map": "/GarbageGuardian-FrontEnd/static/js/main.4a95dc91.js.map",
+    "main.f608dac2.css.map": "/GarbageGuardian-FrontEnd/static/css/main.f608dac2.css.map",
+    "main.e56a6452.js.map": "/GarbageGuardian-FrontEnd/static/js/main.e56a6452.js.map",
     "453.8ab44547.chunk.js.map": "/GarbageGuardian-FrontEnd/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3b9a8115.css",
-    "static/js/main.4a95dc91.js"
+    "static/css/main.f608dac2.css",
+    "static/js/main.e56a6452.js"
   ]
 }
