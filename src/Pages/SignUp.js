@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Logo from '../Assets/GG/logo.png';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // import toastify style
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const SignupPage = () => {
     typeOfUser: '',
   });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,8 +28,34 @@ const SignupPage = () => {
     try {
       const response = await axios.post('http://localhost:3001/auth/signup', formData);
       setMessage('Account created successfully!');
+
+       // Show success toast
+       toast.success('Account created successfully!', {
+        position: 'top-center',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      // Redirect to home after a short delay
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+
       // Redirect to login page or dashboard
     } catch (error) {
+      toast.error('Error: Unable to create account', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       setMessage('Error: Unable to create account');
     }
   };
@@ -35,6 +64,7 @@ const SignupPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-emerald-700 to-green-500">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg border border-gray-300">
         {/* Logo */}
+        <ToastContainer />
         <div className="flex justify-center">
           <img src={Logo} alt="Logo" className="w-16 h-16 object-contain" />
         </div>

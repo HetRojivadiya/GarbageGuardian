@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Logo from "../Assets/GG/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Contexts/Contexts'; // Import AuthContext
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // import toastify styles
 
 const LoginPage = () => {
+  const { setUser, setToken } = useContext(AuthContext); // Access setUserType from AuthContext
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
+  // Redirect if token exists (user is already logged in)
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/'); // Redirect to homepage if already logged in
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,10 +38,16 @@ const LoginPage = () => {
       // Store token in localStorage
       localStorage.setItem('token', response.data.token);
       
+      // Decode token and set user in context
+      const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
+      setUser(decodedToken); // Set the user globally
+      setToken(response.data.token);
+
+
       // Show success toast
       toast.success('Login successful!', {
         position: 'top-center',
-        autoClose: 3000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -42,14 +57,15 @@ const LoginPage = () => {
 
       // Redirect to home after a short delay
       setTimeout(() => {
+        window.location.reload();
         navigate('/');
-      }, 3000);
+      }, 1500);
       
     } catch (error) {
       // Show error toast
       toast.error('Error: Invalid credentials', {
         position: 'top-center',
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -114,7 +130,7 @@ const LoginPage = () => {
         <p className="text-center text-gray-500 mt-4">
           Don't have an account? <Link to="/signup" className="text-emerald-700 font-semibold">Sign Up</Link>
         </p>
-        <p className="text-center under-line text-gray-500 mt-2">
+        <p className="text-center text-gray-500 mt-2">
           <Link to="/" className="text-emerald-700 font-semibold">Continue without login</Link>
         </p>
       </div>

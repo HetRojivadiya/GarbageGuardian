@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
+import { AuthContext } from '../../Contexts/Contexts';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // import toastify styles
 
 const ReportIssue = () => {
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     wasteType: '',
     description: '',
@@ -19,6 +26,28 @@ const ReportIssue = () => {
   const [locationError, setLocationError] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false); // New state for location loading
   const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Check if user is authenticated
+
+    if (!token) {
+    
+
+      toast.error('You need to be logged in first.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setTimeout(() => {
+        navigate('/login'); // Redirect to login after 2 seconds
+      }, 3000);
+    }
+  }, [token, navigate]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -76,7 +105,6 @@ const ReportIssue = () => {
     setError(null);
     setSuccess(false);
 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzEwOGRlOTdmOGIzNjZjMmViMzRjZDgiLCJpYXQiOjE3MjkxMzgxNzYsImV4cCI6MTcyOTE0MTc3Nn0.iYeJxZbji2N-Dy05IPavZI4ubXAc8isajM7CxzOpJ3c"; // Replace with your actual token
     try {
       const data = new FormData();
       data.append('wasteType', formData.wasteType);
@@ -113,12 +141,13 @@ const ReportIssue = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 mt-8">
-      <h1 className="text-5xl font-bold text-center mb-6">
+    <div className="container mx-auto px-4 mt-8 mb-10">
+       <ToastContainer />
+      <h1 className="text-3xl md:text-5xl font-bold text-center mb-6">
         <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Issue</span>
-        <span className='text-5xl px-2 py-1 font-bold text-center my-12 bg-gradient-to-r from-emerald-800 to-green-600 text-transparent bg-clip-text'>an</span>
-         <span className="bg-green-400 text-emerald-950 ml-1 px-2 py-1 rounded-md">Report</span>
-    </h1>
+        <span className='text-3xl md:text-5xl px-2 py-1 font-bold text-center my-12 bg-gradient-to-r from-emerald-800 to-green-600 text-transparent bg-clip-text'>A</span>
+        <span className="bg-green-400 text-emerald-950 ml-1 px-2 py-1 rounded-md">Report</span>
+      </h1>
       <form onSubmit={handleSubmit} className="bg-gray-200 shadow-lg rounded-lg p-6 space-y-4">
         {/* Waste Type */}
         <div>
@@ -227,42 +256,30 @@ const ReportIssue = () => {
             type="button"
             onClick={getLocation}
             className={`bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition ${locationLoading ? 'cursor-not-allowed' : ''}`}
-            disabled={locationLoading} // Disable button while loading
+            disabled={locationLoading}
           >
-            {locationLoading ? (
-              <div className="flex items-center">
-                <svg
-                  className="animate-spin h-5 w-5 mr-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <circle className="opacity-25" cx="12" cy="12" r="10" strokeWidth="4" />
-                  <path
-                    className="opacity-75"
-                    d="M4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0"
-                    strokeWidth="4"
-                  />
-                </svg>
-                Loading...
-              </div>
-            ) : (
-              'Get Current Location'
-            )}
+            {locationLoading ? 'Getting Location...' : 'Get Current Location'}
           </button>
+          {locationError && <p className="text-red-500 mt-2">{locationError}</p>}
         </div>
 
-        {/* Display Google Maps Link */}
+        {/* Display Location Link */}
         {formData.locationLink && (
-          <div className="text-blue-600 font-semibold">
-            Location Set: <a href={formData.locationLink} target="_blank" rel="noopener noreferrer">View on Google Maps</a>
+          <div className="mt-4">
+            <label className="block text-gray-700 font-semibold mb-2">Location Link</label>
+            <a
+              href={formData.locationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              View Location on Google Maps
+            </a>
           </div>
         )}
 
         {/* Submit Button */}
-       {/* Submit Button */}
-       <div>
+        <div>
           <button
             type="submit"
             className={`bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition ${loading ? 'cursor-not-allowed' : ''}`}
@@ -271,13 +288,14 @@ const ReportIssue = () => {
             {loading ? 'Submitting...' : 'Submit Report'}
           </button>
         </div>
-
-        {/* Error and Success Messages */}
-        {error && <div className="text-red-600">{error}</div>}
-
-        {/* Modal Popup */}
-        <Modal isOpen={modalOpen} onClose={closeModal} message="Issue reported successfully!" />
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {success && <p className="text-green-500 mt-2">Report submitted successfully!</p>}
       </form>
+      <Modal 
+        isOpen={modalOpen} 
+        onClose={closeModal} 
+        message="Your report was submitted successfully!" 
+      />
     </div>
   );
 };
