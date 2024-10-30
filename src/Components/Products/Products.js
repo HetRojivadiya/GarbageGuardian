@@ -4,6 +4,7 @@ import { AuthContext } from '../../Contexts/Contexts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import ProductForm from './ProductForm';
+import ProductModal from './ProductModal';
 
 const ProductDisplay = () => {
     const [products, setProducts] = useState([]);
@@ -17,10 +18,17 @@ const ProductDisplay = () => {
     const [formData, setFormData] = useState({});
     const { user } = useContext(AuthContext);
     const [deleting, setDeleting] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    const handleBuyNowClick = (product) => {
+        setSelectedProduct(product);
+        setShowModal(true);
+    };
 
     // Fetch products from the API
     const fetchProducts = async () => {
@@ -117,6 +125,10 @@ const ProductDisplay = () => {
 
     return (
         <div className="container mx-auto p-4 sm:p-6 bg-gray-100 min-h-screen">
+            {showModal && selectedProduct && (
+                <ProductModal product={selectedProduct} onClose={() => setShowModal(false)} />
+            )}
+
             {showForm && (
                 <ProductForm
                     initialData={formData}
@@ -215,7 +227,7 @@ const ProductDisplay = () => {
                             </div>
                         ) : (
                             <div className="p-4 mt-auto">
-                                <button
+                                <button  onClick={() => handleBuyNowClick(product)}
                                     className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-md">
                                     <FontAwesomeIcon icon={faPlus} className="mr-2" />
                                     Buy Now  (only ₹{product.price})

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome, FaInfoCircle, FaExclamationTriangle, FaUser, FaPhone, FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
+import { FaHome, FaInfoCircle, FaExclamationTriangle, FaUser, FaPhone, FaBars, FaTimes, FaShoppingCart, FaClipboardList } from 'react-icons/fa';
 import { AuthContext } from '../../Contexts/Contexts';
 import Logo from '../../Assets/GG/logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +40,6 @@ const Header = () => {
           </h1>
         </div>
 
-
         {/* Desktop Navigation Menu */}
         <nav className="hidden md:flex space-x-4">
           <Link to="/" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
@@ -64,6 +63,9 @@ const Header = () => {
 
           <Link to="/products" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
             <FaShoppingCart className="mr-1" /> Products
+          </Link>
+          <Link to="/parchasedProducts" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
+            <FaClipboardList className="mr-1" /> Orders
           </Link>
           <Link to="/report" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
             <FaExclamationTriangle className="mr-1" /> Report Issue
@@ -125,6 +127,20 @@ const Header = () => {
             )}
           </div>
           <Link
+            to="/products"
+            className="block text-gray-700 hover:text-green-600 transition duration-200 flex items-center"
+            onClick={toggleMobileMenu}
+          >
+            <FaShoppingCart className="mr-2" /> Products
+          </Link>
+          <Link
+            to="/parchasedProducts"
+            className="block text-gray-700 hover:text-green-600 transition duration-200 flex items-center"
+            onClick={toggleMobileMenu}
+          >
+            <FaClipboardList className="mr-2" /> Orders
+          </Link>
+          <Link
             to="/report"
             className="block text-gray-700 hover:text-green-600 transition duration-200 flex items-center"
             onClick={toggleMobileMenu}
@@ -137,16 +153,6 @@ const Header = () => {
             onClick={toggleMobileMenu}
           >
             <FaUser className="mr-2" /> My Reports
-          </Link>
-          <Link to="/organizations" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200" onClick={toggleMobileMenu}>
-            <FaUser className="mr-1" /> Organizations
-          </Link>
-          <Link
-            to="/contactus"
-            className="block text-gray-700 hover:text-green-600 transition duration-200 flex items-center"
-            onClick={toggleMobileMenu}
-          >
-            <FaPhone className="mr-2" /> Contact Us
           </Link>
 
           {user ? (

@@ -41,7 +41,10 @@ const LoginPage = () => {
       // Decode token and set user in context
       const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
       setUser(decodedToken); // Set the user globally
+      console.log(decodedToken);
       setToken(response.data.token);
+
+      localStorage.setItem('userId', decodedToken.userId);
 
 
       // Show success toast

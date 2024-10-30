@@ -11,6 +11,9 @@ import MyReports from './Pages/MyReports/ReportsPage';
 import OrganizationsPage from './Pages/Organization';
 import ProductDisplay from './Pages/Product';
 import PrivacyPolicy from './Pages/PrivacyAndPolicy';
+import PurchasedProducts from './Components/Products/PurchasedProducts';
+import PaymentSuccess from './Components/Payment/PaymentSuccess';
+import PaymentFailed from './Components/Payment/PaymentFailed';
 
 function App() {
   return (
@@ -27,7 +30,10 @@ function App() {
             <Route path="/myreports" element={<MyReports />} />
             <Route path="/products" element={<ProductDisplay/>} />
             <Route path="/organizations" element={<OrganizationsPage />} />
+            <Route path="/parchasedProducts" element={<PurchasedProducts/>}/>
             <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
+            <Route path="/payment-successful" element={<PaymentSuccess />} />
+            <Route path="/payment-failed" element={<PaymentFailed />} />
             {/* Add more routes as needed */}
           </Routes>
         </div>
