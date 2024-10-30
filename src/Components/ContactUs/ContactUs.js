@@ -52,7 +52,7 @@ const ContactUs = () => {
           </form>
           <div className="mt-4 text-center text-gray-600">
             <p>Email: support@garbageguardian.com</p>
-            <p>Phone: +9876543210</p>
+            <p>Phone: +91 98765 43210</p>
           </div>
         </div>
       </div>

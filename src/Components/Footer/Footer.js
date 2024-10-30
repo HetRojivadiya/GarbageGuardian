@@ -41,7 +41,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
             <p className="text-gray-300">Email: support@garbageguardian.com</p>
-            <p className="text-gray-300">Phone: +123-456-7890</p>
+            <p className="text-gray-300">Phone: +91 98765 43210</p>
             <div className="flex space-x-4 mt-4">
               <a href="https://facebook.com" className="hover:text-green-300" aria-label="Facebook">
                 <i className="fab fa-facebook-square text-2xl"></i>
