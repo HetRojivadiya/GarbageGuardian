@@ -1,7 +1,6 @@
 import React, { useState, useEffect,useContext } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
-import { AuthContext } from '../../Contexts/Contexts';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // import toastify styles
@@ -38,9 +37,10 @@ const ReportIssue = () => {
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+       
         draggable: true,
         progress: undefined,
+pauseOnHover: false,
       });
 
       setTimeout(() => {

@@ -35,9 +35,10 @@ const SignupPage = () => {
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+       
         draggable: true,
         progress: undefined,
+pauseOnHover: false,
       });
 
       // Redirect to home after a short delay
@@ -52,9 +53,10 @@ const SignupPage = () => {
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+     
         draggable: true,
         progress: undefined,
+pauseOnHover: false,
       });
       setMessage('Error: Unable to create account');
     }

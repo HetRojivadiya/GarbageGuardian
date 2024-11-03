@@ -53,9 +53,10 @@ const LoginPage = () => {
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: true,
         progress: undefined,
+
       });
 
       // Redirect to home after a short delay
@@ -71,9 +72,10 @@ const LoginPage = () => {
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover:false,
         draggable: true,
         progress: undefined,
+
       });
     }
   };
