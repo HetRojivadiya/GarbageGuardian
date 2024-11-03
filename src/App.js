@@ -14,6 +14,7 @@ import PrivacyPolicy from './Pages/PrivacyAndPolicy';
 import PurchasedProducts from './Components/Products/PurchasedProducts';
 import PaymentSuccess from './Components/Payment/PaymentSuccess';
 import PaymentFailed from './Components/Payment/PaymentFailed';
+import FAQ from './Pages/FAQ';
 
 function App() {
   return (
@@ -29,8 +30,9 @@ function App() {
             <Route path="/contactus" element={<ContactUsPage />} />
             <Route path="/myreports" element={<MyReports />} />
             <Route path="/products" element={<ProductDisplay/>} />
+            <Route path="/FAQ" element={<FAQ/>} />
             <Route path="/organizations" element={<OrganizationsPage />} />
-            <Route path="/parchasedProducts" element={<PurchasedProducts/>}/>
+            <Route path="/purchasedProducts" element={<PurchasedProducts/>}/>
             <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
             <Route path="/payment-failed" element={<PaymentFailed />} />

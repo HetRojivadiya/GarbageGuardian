@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome, FaInfoCircle, FaExclamationTriangle, FaUser, FaPhone, FaBars, FaTimes, FaShoppingCart, FaClipboardList } from 'react-icons/fa';
+import { FaHome, FaInfoCircle, FaExclamationTriangle, FaUser, FaBars, FaTimes, FaShoppingCart, FaClipboardList } from 'react-icons/fa';
 import { AuthContext } from '../../Contexts/Contexts';
 import Logo from '../../Assets/GG/logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -64,7 +64,7 @@ const Header = () => {
           <Link to="/products" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
             <FaShoppingCart className="mr-1" /> Products
           </Link>
-          <Link to="/parchasedProducts" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
+          <Link to="/purchasedProducts" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
             <FaClipboardList className="mr-1" /> Orders
           </Link>
           <Link to="/report" className="flex items-center text-gray-700 hover:text-green-600 transition duration-200">
@@ -134,7 +134,7 @@ const Header = () => {
             <FaShoppingCart className="mr-2" /> Products
           </Link>
           <Link
-            to="/parchasedProducts"
+            to="/purchasedProducts"
             className="block text-gray-700 hover:text-green-600 transition duration-200 flex items-center"
             onClick={toggleMobileMenu}
           >

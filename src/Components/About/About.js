@@ -46,19 +46,19 @@ function About() {
           <h2 className="text-4xl text-green-700 font-semibold mb-8">Garbage Guardian By the Numbers</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white bg-opacity-90 p-8 rounded-lg border-l-4 border-green-600 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 duration-300">
+              <p className="text-lg text-gray-700 mb-4">Our Reach</p>
               <h3 className="text-3xl font-bold text-green-600 mb-2">14</h3>
-              <p className="text-lg text-gray-700 mb-4">Global Offices</p>
-              <a href="#" className="text-green-500 hover:underline font-semibold">Learn more</a>
+              <p className="text-lg text-gray-700 mb-4">Partnered Cities</p>
             </div>
             <div className="bg-white bg-opacity-90 p-8 rounded-lg border-l-4 border-green-600 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 duration-300">
+              <p className="text-lg text-gray-700 mb-4">Empowered Volunteers</p>
               <h3 className="text-3xl font-bold text-green-600 mb-2">8,000+</h3>
-              <p className="text-lg text-gray-700 mb-4">Employees</p>
-              <a href="#" className="text-green-500 hover:underline font-semibold">Learn more</a>
+              <p className="text-lg text-gray-700 mb-4">Active Volunteers</p>
             </div>
             <div className="bg-white bg-opacity-90 p-8 rounded-lg border-l-4 border-green-600 shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 duration-300">
-              <h3 className="text-3xl font-bold text-green-600 mb-2">228,000+</h3>
-              <p className="text-lg text-gray-700 mb-4">Customers</p>
-              <a href="#" className="text-green-500 hover:underline font-semibold">Learn more</a>
+              <p className="text-lg text-gray-700 mb-4">Impactful Reports</p>
+              <h3 className="text-3xl font-bold text-green-600 mb-2">22,000+</h3>
+              <p className="text-lg text-gray-700 mb-4">Waste Issues Resolves</p>
             </div>
           </div>
         </div>

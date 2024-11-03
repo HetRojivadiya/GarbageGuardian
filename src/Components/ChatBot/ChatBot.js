@@ -80,7 +80,7 @@ const responses = {
   privacyPolicy: (
     <span>
       Your privacy is important to us. Our Privacy Policy outlines how we use and protect your information. 
-      <span className="text-blue-500"><Link to="/privacypolicy">Privacy Policy</Link></span>
+      <span className="text-blue-500"><Link to="/privacyandpolicy">Privacy Policy</Link></span>
     </span>
   ),
   feedback: (
