@@ -1,7 +1,8 @@
 import React, { useEffect, useState,useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../Contexts/Contexts'; // Adjust the import based on your file structure
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AcceptedReports = () => {
   const [acceptedReports, setAcceptedReports] = useState([]);
@@ -59,10 +60,29 @@ const AcceptedReports = () => {
         },
       });
       setAcceptedReports((prev) => prev.filter(report => report._id !== reportId));
-      alert('Report canceled successfully.');
+
+      toast.error('Report canceled successfully.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
+
+
     } catch (error) {
       console.error('Error canceling the report:', error);
-      alert('Failed to cancel the report.');
+      toast.error('Error canceling the report:', error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
     }
   };
 
@@ -75,15 +95,36 @@ const AcceptedReports = () => {
         },
       });
       setAcceptedReports((prev) => prev.filter(report => report._id !== reportId));
-      alert('Report marked as completed successfully.');
+
+      toast.success('Report marked as completed successfully.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+
+      });
+      
     } catch (error) {
       console.error('Error completing the report:', error);
-      alert('Failed to mark the report as completed.');
+      toast.error('Failed to mark the report as completed.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
+     
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
+       <ToastContainer />
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Accepted Reports</h1>
 
       {loading ? (

@@ -1,9 +1,9 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // import toastify styles
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReportIssue = () => {
   const token = localStorage.getItem('token');
@@ -23,28 +23,22 @@ const ReportIssue = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [locationError, setLocationError] = useState(null);
-  const [locationLoading, setLocationLoading] = useState(false); // New state for location loading
+  const [locationLoading, setLocationLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    // Check if user is authenticated
-
     if (!token) {
-    
-
       toast.error('You need to be logged in first.', {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
-       
         draggable: true,
         progress: undefined,
-pauseOnHover: false,
+        pauseOnHover: false,
       });
-
       setTimeout(() => {
-        navigate('/login'); // Redirect to login after 2 seconds
+        navigate('/login');
       }, 3000);
     }
   }, [token, navigate]);
@@ -68,7 +62,7 @@ pauseOnHover: false,
   // Fetch the user's current location
   const getLocation = () => {
     if (navigator.geolocation) {
-      setLocationLoading(true); // Start loading animation
+      setLocationLoading(true);
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const lat = position.coords.latitude;
@@ -78,19 +72,19 @@ pauseOnHover: false,
           const googleMapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
           setFormData((prev) => ({
             ...prev,
-            locationLink: googleMapsLink, // Automatically set location link
+            locationLink: googleMapsLink,
           }));
 
-          setLocationLoading(false); // Stop loading animation
+          setLocationLoading(false);
           setLocationError(null);
         },
         (error) => {
-          setLocationLoading(false); // Stop loading animation
+          setLocationLoading(false);
           setLocationError(error.message);
         },
         {
-          enableHighAccuracy: true, // Request high accuracy
-          maximumAge: 0,             // Don't use cached location
+          enableHighAccuracy: true,
+          maximumAge: 0,
         }
       );
     } else {
@@ -113,7 +107,7 @@ pauseOnHover: false,
       data.append('state', formData.state);
       data.append('pincode', formData.pincode);
       data.append('harmfulLevel', formData.harmfulLevel);
-      data.append('locationLink', formData.locationLink); // Append location link
+      data.append('locationLink', formData.locationLink);
 
       // Add multiple image files
       for (let i = 0; i < formData.images.length; i++) {
@@ -123,7 +117,7 @@ pauseOnHover: false,
       const response = await axios.post('http://localhost:3001/report/issue', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`, // Include token in headers
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -137,12 +131,12 @@ pauseOnHover: false,
   };
 
   const closeModal = () => {
-    setModalOpen(false); // Close the modal
+    setModalOpen(false);
   };
 
   return (
     <div className="container mx-auto px-4 mt-8 mb-10">
-       <ToastContainer />
+      <ToastContainer />
       <h1 className="text-3xl md:text-5xl font-bold text-center mb-6">
         <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Issue</span>
         <span className='text-3xl md:text-5xl px-2 py-1 font-bold text-center my-12 bg-gradient-to-r from-emerald-800 to-green-600 text-transparent bg-clip-text'>A</span>
@@ -263,20 +257,18 @@ pauseOnHover: false,
           {locationError && <p className="text-red-500 mt-2">{locationError}</p>}
         </div>
 
-        {/* Display Location Link */}
-        {formData.locationLink && (
-          <div className="mt-4">
-            <label className="block text-gray-700 font-semibold mb-2">Location Link</label>
-            <a
-              href={formData.locationLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 underline"
-            >
-              View Location on Google Maps
-            </a>
-          </div>
-        )}
+        {/* Alternate Location Link Input */}
+        <div className="mt-4">
+          <label className="block text-gray-700 font-semibold mb-2">Location Link (if location button doesn’t work)</label>
+          <input
+            type="url"
+            name="locationLink"
+            value={formData.locationLink}
+            onChange={handleChange}
+            className="block w-full border border-green-300 rounded-lg p-3 focus:ring-2 focus:ring-green-400 focus:outline-none"
+            placeholder="Paste Google Maps link here"
+          />
+        </div>
 
         {/* Submit Button */}
         <div>

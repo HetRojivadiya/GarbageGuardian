@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../Contexts/Contexts'; // Adjust the import based on your file structure
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CompletedReports = () => {
   const { user } = useContext(AuthContext); // Access user from AuthContext
@@ -61,17 +63,46 @@ const CompletedReports = () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        alert('Rating submitted successfully!');
+        toast.success('Rating submitted successfully!', {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+  
+        });
+
       } catch (error) {
+        toast.error('Error submitting rating:', {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          pauseOnHover: false,
+        });
         console.error('Error submitting rating:', error);
       }
     } else {
-      alert('Please select a rating before submitting.');
+      toast.error('Please select a rating before submitting.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
+      
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
+        <ToastContainer />
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Completed Reports</h1>
 
       {loading ? (

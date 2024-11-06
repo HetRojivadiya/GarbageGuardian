@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const IssuedReportsById = () => {
   const [issuedReports, setIssuedReports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expandedReportIds, setExpandedReportIds] = useState({});
+  const [cancelLoadingId, setCancelLoadingId] = useState(null);
 
   useEffect(() => {
     const fetchIssuedReports = async () => {
@@ -34,22 +37,43 @@ const IssuedReportsById = () => {
   };
 
   const handleCancelReport = async (reportId) => {
+    setCancelLoadingId(reportId);
     try {
       const response = await axios.delete(`http://localhost:3001/report/cancelIssuedReport/${reportId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      alert(response.data.message); // Notify user of success
+     
       setIssuedReports((prev) => prev.filter(report => report._id !== reportId)); // Remove canceled report from the list
+      toast.success('Report canceled successfully.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
     } catch (error) {
       console.error('Error canceling report:', error);
-      alert('Failed to cancel the report. Please try again.'); // Notify user of failure
+      toast.error('Failed to cancel the report. Please try again.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
+    } finally {
+      setCancelLoadingId(null); // Clear loading state after request is done
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
+       <ToastContainer />
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Issued Reports</h1>
 
       {loading ? (
@@ -108,12 +132,37 @@ const IssuedReportsById = () => {
               <p className="text-gray-500 text-sm mt-2">Issued on: {new Date(report.issuedDate).toLocaleDateString()}</p>
 
               <div className="flex justify-between mt-4">
-                <button
-                  className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600"
-                  onClick={() => handleCancelReport(report._id)}
-                >
-                  Cancel Report
-                </button>
+              <button
+  className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 flex items-center justify-center"
+  onClick={() => handleCancelReport(report._id)}
+  disabled={cancelLoadingId === report._id} // Disable the button while loading
+>
+  {cancelLoadingId === report._id ? (
+    <svg
+      className="animate-spin h-5 w-5 text-white mr-2"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291l-3.711 3.71A10.014 10.014 0 0012 22v-4a6 6 0 01-6-5.709z"
+      ></path>
+    </svg>
+  ) : (
+    'Cancel Report'
+  )}
+</button>
+
               </div>
             </div>
           ))}

@@ -99,7 +99,7 @@ const ProductModal = ({ product, onClose }) => {
                             type="number"
                             id="quantity"
                             min="1"
-                            max="10"
+                            max={product.quantity > 10 ? 10 : product.quantity}
                             value={quantity}
                             onChange={handleQuantityChange}
                             className="border border-gray-300 rounded-md p-2 w-20"
