@@ -133,7 +133,7 @@ pauseOnHover: false,
           <div className="mb-4">
             <label className="block text-gray-700 text-lg font-medium mb-1">Type of User</label>
             <div className="grid grid-cols-2 gap-2">
-              {['People', 'Service Provider', 'Foundation & Organisation', 'Municipal Corporation'].map((type) => (
+              {['People', 'Foundation & Organisation', 'Municipal Corporation'].map((type) => (
                 <label key={type} className="inline-flex items-center border border-gray-300 rounded-md p-2 cursor-pointer hover:bg-emerald-50 transition duration-200">
                   <input
                     type="radio"

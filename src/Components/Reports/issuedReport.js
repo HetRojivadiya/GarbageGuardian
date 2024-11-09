@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../Contexts/Contexts'; // Adjust the import based on your context file structure
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const IssuedReport = () => {
   const { user } = useContext(AuthContext); // Access user from AuthContext
@@ -9,6 +12,7 @@ const IssuedReport = () => {
   const [error, setError] = useState(null);
   const [selectedImages, setSelectedImages] = useState({});
   const [showFullDescription, setShowFullDescription] = useState({});
+  const [filter, setFilter] = useState({ city: '', state: '', pincode: '' }); // Add filter state
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -60,30 +64,81 @@ const IssuedReport = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-     
-      // Optionally, you might want to update the state to remove the accepted report or refresh the list
+
+      toast.success('Report was accepted successfully!', {
+        position: 'top-center',
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+
+      });
+
       setReports(reports.filter(report => report._id !== reportId));
     } catch (err) {
       setError(err.message); // Handle any errors that occur
     }
   };
 
+  // Filter reports based on city, state, or pincode
+  const filteredReports = reports.filter(report =>
+    (filter.city === '' || report.address.city.toLowerCase().includes(filter.city.toLowerCase())) &&
+    (filter.state === '' || report.address.state.toLowerCase().includes(filter.state.toLowerCase())) &&
+    (filter.pincode === '' || report.address.pincode.includes(filter.pincode))
+  );
+
   if (loading) return <div className="text-center mt-10 text-xl text-blue-500 animate-pulse">Loading...</div>;
   if (error) return <div className="text-center text-red-500 mt-10 text-xl">Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 bg-gray-100 min-h-screen">
+    <div className="container mx-auto p-4 sm:p-6 bg-gray-100 min-h-screen relative">
+       <ToastContainer />
       <h1 className="text-3xl sm:text-5xl font-bold text-center mb-4 sm:mb-6">
         <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Issued</span>
         <span className="bg-green-400 text-emerald-950 ml-2 px-2 py-1 rounded-md">Reports!</span>
       </h1>
 
-      {reports.length > 0 ? (
+      {/* Filter Section */}
+      <div className="bg-white shadow-lg rounded-lg p-4 mb-6 flex items-center justify-between space-x-4">
+        <h2 className="text-lg font-semibold">Filter Reports</h2>
+        <input
+          type="text"
+          placeholder="City"
+          value={filter.city}
+          onChange={(e) => setFilter({ ...filter, city: e.target.value })}
+          className="w-24 sm:w-32 p-2 border rounded-md"
+        />
+        <input
+          type="text"
+          placeholder="State"
+          value={filter.state}
+          onChange={(e) => setFilter({ ...filter, state: e.target.value })}
+          className="w-24 sm:w-32 p-2 border rounded-md"
+        />
+        <input
+          type="text"
+          placeholder="Pincode"
+          value={filter.pincode}
+          onChange={(e) => setFilter({ ...filter, pincode: e.target.value })}
+          className="w-24 sm:w-32 p-2 border rounded-md"
+        />
+        <button
+          onClick={() => setFilter({ city: '', state: '', pincode: '' })}
+          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        >
+          Clear
+        </button>
+      </div>
+
+
+      {filteredReports.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 mt-4 lg:grid-cols-3 gap-4 sm:gap-6">
-          {reports.map(report => (
+          {filteredReports.map(report => (
             <div
               key={report._id}
-              className={`bg-white shadow-lg rounded-xl overflow-hidden ${getBorderColor(report.harmfulLevel)} border-4`}
+              className={`bg-white shadow-lg rounded-xl overflow-hidden ${getBorderColor(report.harmfulLevel)} border-2`}
             >
               <div className="relative">
                 <img
@@ -161,17 +216,17 @@ const IssuedReport = () => {
                 <p className="text-gray-600 text-sm sm:text-md">
                   <span className="font-semibold">Email:</span> {report.user.email}
                 </p>
-              
-                {/* Conditionally render the Accept button */}
-                {user && user.typeOfUser && ['Foundation & Organisation', 'Municipal Corporation'].includes(user.typeOfUser) && user.status === 'Verified' && (
-  <button
-    onClick={() => handleAccept(report._id)} // Implement handleAccept as needed
-    className="mt-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md"
-  >
-    Accept
-  </button>
-)}
 
+                {user && user.typeOfUser && ['Foundation & Organisation', 'Municipal Corporation'].includes(user.typeOfUser) && user.status === 'Verified' && (
+                  <div className="bottom-4 left-0 right-0 px-4"> {/* Position button container at bottom */}
+                    <button
+                      onClick={() => handleAccept(report._id)}
+                      className="mt-2 bg-green-500 hover:bg-green-600 text-white w-full  font-semibold py-2 px-4 rounded-md"
+                    >
+                      Accept
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

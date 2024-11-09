@@ -53,10 +53,25 @@ const ReportIssue = () => {
 
   // Handle file upload change
   const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      images: e.target.files,
-    });
+    const selectedFiles = e.target.files;
+
+    if (selectedFiles.length > 5) {
+      // Show error toast notification if more than 5 images are selected
+      toast.error('You can upload a maximum of 5 images.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        images: selectedFiles,
+      });
+    }
   };
 
   // Fetch the user's current location

@@ -33,7 +33,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo Section */}
         <div className="flex items-center">
-         <Link to="/"> <img src={Logo} alt="Logo" className="h-12 md:h-10 mr-2" /> {/* Adjust height for mobile */}</Link>
+          <Link to="/"> <img src={Logo} alt="Logo" className="h-12 md:h-10 mr-2" /> {/* Adjust height for mobile */}</Link>
           <h1 className="text-2xl md:text-3xl font-bold text-center"> {/* Adjust font size for mobile */}
             <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Garbage</span>
             <span className="bg-green-400 text-emerald-950 ml-1 px-2 py-1 rounded-md">Guardian</span>
@@ -78,7 +78,9 @@ const Header = () => {
           {user ? (
             <div className="flex items-center space-x-1">
               <FaUser className="text-gray-700" />
-              <span className="text-gray-700 font-semibold">{user.userName}</span>
+              <span className="text-gray-700 font-semibold truncate max-w-[100px] overflow-hidden">
+                {user.userName}
+              </span>
               <button
                 onClick={handleLogout}
                 className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-200"
@@ -91,6 +93,7 @@ const Header = () => {
               <FaUser className="mr-1" /> Login/Signup
             </Link>
           )}
+
         </nav>
 
         {/* Mobile Menu Button */}
