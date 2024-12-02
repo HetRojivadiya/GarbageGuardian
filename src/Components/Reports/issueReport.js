@@ -114,6 +114,21 @@ const ReportIssue = () => {
     setError(null);
     setSuccess(false);
 
+
+    if (formData.images.length === 0) {
+      toast.error('Please upload at least one image.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        pauseOnHover: false,
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const data = new FormData();
       data.append('wasteType', formData.wasteType);

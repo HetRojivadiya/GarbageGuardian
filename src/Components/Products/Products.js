@@ -21,6 +21,10 @@ const ProductDisplay = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
+    // Pagination States
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
+
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -96,12 +100,12 @@ const ProductDisplay = () => {
             }
 
             setShowForm(false); // Close the form
-            
+
             fetchProducts(); // Refresh the product list
 
         } catch (err) {
             console.error("Error saving product:", err);
-            
+
         }
     };
 
@@ -120,6 +124,17 @@ const ProductDisplay = () => {
         );
         setFilteredProducts(filtered);
     }, [searchTerm, products]);
+
+    // Calculate products to display based on the current page
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     if (loading) return <div className="text-center mt-10 text-xl text-blue-500 animate-pulse">Loading...</div>;
     if (error) return <div className="text-center text-red-500 mt-10 text-xl">Error: {error}</div>;
@@ -164,96 +179,115 @@ const ProductDisplay = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-    {filteredProducts.map((product) => (
-        <div key={product._id} className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200 flex flex-col">
-            <div className="relative">
-                <img
-                    src={selectedImages[product._id] || product.images[0]?.url}
-                    alt={product.name}
-                    className="w-full h-60 object-cover"
-                />
-                {/* Show "Out of Stock" overlay if quantity is 0 */}
-                {product.quantity === 0 && (
-                    <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60 flex items-center justify-center">
-                        <span className="text-white text-lg font-bold">Out of Stock</span>
-                    </div>
-                )}
-            </div>
-
-            <div className="p-4 flex flex-col flex-grow">
-                <h2 className="text-lg font-semibold text-gray-900">{product.name}</h2>
-                <div className="flex justify-left space-x-2 p-2">
-                    {product.images.slice(0, 4).map((image, index) => (
-                        <img
-                            key={index}
-                            src={image.url}
-                            alt={`Thumbnail ${index + 1}`}
-                            className="w-16 h-16 object-cover rounded-md border-2 border-white shadow-md cursor-pointer hover:scale-110 transition-transform"
-                            onClick={() => setSelectedImages((prevState) => ({
-                                ...prevState,
-                                [product._id]: image.url,
-                            }))}
-                        />
-                    ))}
-                </div>
-                <p className="text-gray-600 mt-1">
-                    {expandedDescriptions[product._id] ? product.description : `${product.description.slice(0, 100)}...`}
-                    <button
-                        onClick={() => toggleDescription(product._id)}
-                        className="text-blue-500 ml-2 underline">
-                        {expandedDescriptions[product._id] ? "Show Less" : "Show More"}
-                    </button>
-                </p>
-                {user && user.userName === 'admin' && <p className="text-green-600 font-bold mt-2">₹{product.price}</p>}
-            </div>
-
-            {user && user.userName === 'admin' ? (
-                <div className="flex space-x-2 p-4 mt-auto">
-                    <button
-                        onClick={() => handleUpdateProduct(product._id)}
-                        className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-md">
-                        <FontAwesomeIcon icon={faEdit} className="mr-2" />
-                        Update Product
-                    </button>
-                    <button
-                        onClick={() => handleDeleteProduct(product._id)}
-                        className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-md"
-                        disabled={deleting === product._id}
-                    >
-                        {deleting === product._id ? (
-                            <FontAwesomeIcon icon={faTrash} className="mr-2 animate-spin" />
-                        ) : (
-                            <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                        )}
-                        {deleting === product._id ? 'Deleting...' : 'Delete'}
-                    </button>
-                </div>
-            ) : (
-                <div className="p-4 mt-auto">
-                    {product.quantity === 0 ? (
-                        <button disabled className="w-full bg-gray-400 text-white font-semibold py-2 rounded-md">
-                            Out of Stock
-                        </button>
-                    ) : (
-                        <>
-                            {product.quantity <= 9 && (
-                                <p className="text-yellow-500 font-semibold mb-2">
-                                    Hurry up, only {product.quantity} left!
-                                </p>
+                {currentProducts.map((product) => (
+                    <div key={product._id} className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200 flex flex-col">
+                        <div className="relative">
+                            <img
+                                src={selectedImages[product._id] || product.images[0]?.url}
+                                alt={product.name}
+                                className="w-full h-60 object-cover"
+                            />
+                            {product.quantity === 0 && (
+                                <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60 flex items-center justify-center">
+                                    <span className="text-white text-lg font-bold">Out of Stock</span>
+                                </div>
                             )}
-                            <button onClick={() => handleBuyNowClick(product)}
-                                className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-md">
-                                <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                                Buy Now  (only ₹{product.price})
-                            </button>
-                        </>
-                    )}
-                </div>
-            )}
-        </div>
-    ))}
-</div>
+                        </div>
 
+                        <div className="p-4 flex flex-col flex-grow">
+                            <h2 className="text-lg font-semibold text-gray-900">{product.name}</h2>
+                            <div className="flex justify-left space-x-2 p-2">
+                                {product.images.slice(0, 4).map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image.url}
+                                        alt={`Thumbnail ${index + 1}`}
+                                        className="w-16 h-16 object-cover rounded-md border-2 border-white shadow-md cursor-pointer hover:scale-110 transition-transform"
+                                        onClick={() => setSelectedImages((prevState) => ({
+                                            ...prevState,
+                                            [product._id]: image.url,
+                                        }))}
+                                    />
+                                ))}
+                            </div>
+                            <p className="text-gray-600 mt-1">
+                                {expandedDescriptions[product._id] ? product.description : `${product.description.slice(0, 100)}...`}
+                                <button
+                                    onClick={() => toggleDescription(product._id)}
+                                    className="text-blue-500 ml-2 underline">
+                                    {expandedDescriptions[product._id] ? "Show Less" : "Show More"}
+                                </button>
+                            </p>
+                            {user && user.userName === 'admin' && <p className="text-green-600 font-bold mt-2">₹{product.price}</p>}
+                        </div>
+
+                        {user && user.userName === 'admin' ? (
+                            <div className="flex space-x-2 p-4 mt-auto">
+                                <button
+                                    onClick={() => handleUpdateProduct(product._id)}
+                                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-md">
+                                    <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                                    Update Product
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteProduct(product._id)}
+                                    className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-md"
+                                    disabled={deleting === product._id}
+                                >
+                                    {deleting === product._id ? (
+                                        <FontAwesomeIcon icon={faTrash} className="mr-2 animate-spin" />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                                    )}
+                                    {deleting === product._id ? 'Deleting...' : 'Delete'}
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="p-4 mt-auto">
+                                {product.quantity === 0 ? (
+                                    <button disabled className="w-full bg-gray-400 text-white font-semibold py-2 rounded-md">
+                                        Out of Stock
+                                    </button>
+                                ) : (
+                                    <>
+                                        {product.quantity <= 9 && (
+                                            <p className="text-yellow-500 font-semibold mb-2">
+                                                Hurry up, only {product.quantity} left!
+                                            </p>
+                                        )}
+                                        <button onClick={() => handleBuyNowClick(product)}
+                                            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-md">
+                                            <FontAwesomeIcon icon={faPlus} className="mr-2" />
+                                            Buy Now  (only ₹{product.price})
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center mt-6 space-x-4">
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg transition-all hover:scale-105 hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Previous
+                </button>
+                <span className="text-xl text-gray-800 font-medium flex items-center">
+                    {`Page ${currentPage} of ${totalPages}`}
+                </span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg transition-all hover:scale-105 hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Next
+                </button>
+            </div>
 
         </div>
     );

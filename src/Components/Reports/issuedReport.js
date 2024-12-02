@@ -94,7 +94,7 @@ const IssuedReport = () => {
 
   return (
     <div className="container mx-auto p-4 sm:p-6 bg-gray-100 min-h-screen relative">
-       <ToastContainer />
+      <ToastContainer />
       <h1 className="text-3xl sm:text-5xl font-bold text-center mb-4 sm:mb-6">
         <span className="bg-emerald-950 text-white px-2 py-1 rounded-md">Issued</span>
         <span className="bg-green-400 text-emerald-950 ml-2 px-2 py-1 rounded-md">Reports!</span>
@@ -173,26 +173,26 @@ const IssuedReport = () => {
                   {showFullDescription[report._id] ? report.description : `${report.description.slice(0, 150)}...`}
                 </p>
                 {report.description.length > 150 && (
-                  <button
-                    className="text-blue-500 mb-2 sm:mb-4 underline hover:text-blue-700 transition"
-                    onClick={() => toggleDescription(report._id)}
-                  >
-                    {showFullDescription[report._id] ? 'Show Less' : 'Show More'}
-                  </button>
+                    <button
+                        className="text-blue-500 mb-2 sm:mb-4 underline hover:text-blue-700 transition"
+                        onClick={() => toggleDescription(report._id)}
+                    >
+                      {showFullDescription[report._id] ? 'Show Less' : 'Show More'}
+                    </button>
                 )}
 
                 {report.locationLink && (
-                  <p className="text-gray-700 mb-2 sm:mb-4 text-sm sm:text-md">
-                    <span className="font-semibold">Google Maps Link:</span>
-                    <a
-                      href={report.locationLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline ml-1 hover:text-blue-700 transition"
-                    >
-                      View on Google Maps
-                    </a>
-                  </p>
+                    <p className="text-gray-700 mb-2 sm:mb-4 text-sm sm:text-md">
+                      <span className="font-semibold">Google Maps Link:</span>
+                      <a
+                          href={report.locationLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline ml-1 hover:text-blue-700 transition"
+                      >
+                        View on Google Maps
+                      </a>
+                    </p>
                 )}
 
                 <p className="text-green-600 font-semibold text-sm sm:text-md mb-2">
@@ -216,16 +216,18 @@ const IssuedReport = () => {
                 <p className="text-gray-600 text-sm sm:text-md">
                   <span className="font-semibold">Email:</span> {report.user.email}
                 </p>
+                
+
 
                 {user && user.typeOfUser && ['Foundation & Organisation', 'Municipal Corporation'].includes(user.typeOfUser) && user.status === 'Verified' && (
-                  <div className="bottom-4 left-0 right-0 px-4"> {/* Position button container at bottom */}
-                    <button
-                      onClick={() => handleAccept(report._id)}
-                      className="mt-2 bg-green-500 hover:bg-green-600 text-white w-full  font-semibold py-2 px-4 rounded-md"
-                    >
-                      Accept
-                    </button>
-                  </div>
+                    <div className="bottom-4 left-0 right-0 px-4"> {/* Position button container at bottom */}
+                      <button
+                          onClick={() => handleAccept(report._id)}
+                          className="mt-2 bg-green-500 hover:bg-green-600 text-white w-full  font-semibold py-2 px-4 rounded-md"
+                      >
+                        Accept
+                      </button>
+                    </div>
                 )}
               </div>
             </div>
