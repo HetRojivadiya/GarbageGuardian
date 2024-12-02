@@ -58,7 +58,7 @@ const ProductModal = ({ product, onClose }) => {
         };
 
         try {
-            const response = await axios.post("http://localhost:3001/payment/create-order", data);
+            const response = await axios.post("https://garbageguardian-backend.onrender.com/payment/create-order", data);
             console.log(response.data);
             window.location.href = response.data.url;
         } catch (error) {

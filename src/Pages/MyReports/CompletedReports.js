@@ -19,7 +19,7 @@ const CompletedReports = () => {
   useEffect(() => {
     const fetchCompletedReports = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/report/fetchCompletedIssues', {
+        const response = await axios.get('https://garbageguardian-backend.onrender.com/report/fetchCompletedIssues', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -54,7 +54,7 @@ const CompletedReports = () => {
 
     if (rating) {
       try {
-        await axios.post('http://localhost:3001/report/rate', {
+        await axios.post('https://garbageguardian-backend.onrender.com/report/rate', {
           reportId,
           organizationId,
           rating,

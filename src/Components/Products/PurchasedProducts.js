@@ -43,8 +43,8 @@ const PurchasedProducts = () => {
         const fetchPurchasedProducts = async () => {
 
             const url = user && user.userName === 'admin'
-                ? 'http://localhost:3001/sellRecyclingProducts/getAllPurchasedProducts' // Admin API
-                : 'http://localhost:3001/sellRecyclingProducts/getPurchasedProducts'; // User API
+                ? 'https://garbageguardian-backend.onrender.com/sellRecyclingProducts/getAllPurchasedProducts' // Admin API
+                : 'https://garbageguardian-backend.onrender.com/sellRecyclingProducts/getPurchasedProducts'; // User API
 
             try {
                 const response = await axios.get(url, {
@@ -68,7 +68,7 @@ const PurchasedProducts = () => {
 
         try {
             await axios.put(
-                `http://localhost:3001/sellRecyclingProducts/updateOrderStatus/${orderId}`,
+                `https://garbageguardian-backend.onrender.com/sellRecyclingProducts/updateOrderStatus/${orderId}`,
                 { status: newStatus },
                 {
                     headers: {
@@ -95,7 +95,7 @@ const PurchasedProducts = () => {
 
         try {
             await axios.put(
-                `http://localhost:3001/sellRecyclingProducts/cancelOrder/${orderId}`,
+                `https://garbageguardian-backend.onrender.com/sellRecyclingProducts/cancelOrder/${orderId}`,
                 {},
                 {
                     headers: {

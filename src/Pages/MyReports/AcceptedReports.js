@@ -15,7 +15,7 @@ const AcceptedReports = () => {
     const fetchAcceptedReports = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/report/fetchAcceptedReports', {
+        const response = await axios.get('https://garbageguardian-backend.onrender.com/report/fetchAcceptedReports', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -54,7 +54,7 @@ const AcceptedReports = () => {
 
     console.log(reportId);
     try {
-      await axios.delete(`http://localhost:3001/report/cancelAcceptReport/${reportId}`, {
+      await axios.delete(`https://garbageguardian-backend.onrender.com/report/cancelAcceptReport/${reportId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -89,7 +89,7 @@ const AcceptedReports = () => {
   // Function to handle marking the report as completed
   const handleComplete = async (reportId) => {
     try {
-      await axios.post(`http://localhost:3001/report/completeIssue/${reportId}`, {}, {
+      await axios.post(`https://garbageguardian-backend.onrender.com/report/completeIssue/${reportId}`, {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

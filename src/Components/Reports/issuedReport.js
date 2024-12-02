@@ -17,7 +17,7 @@ const IssuedReport = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/report/issued');
+        const response = await axios.get('https://garbageguardian-backend.onrender.com/report/issued');
         setReports(response.data.data);
         setLoading(false);
       } catch (err) {
@@ -58,7 +58,7 @@ const IssuedReport = () => {
 
   const handleAccept = async (reportId) => {
     try {
-      await axios.post(`http://localhost:3001/report/acceptReport/${reportId}`, {
+      await axios.post(`https://garbageguardian-backend.onrender.com/report/acceptReport/${reportId}`, {
       }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

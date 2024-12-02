@@ -13,7 +13,7 @@ const IssuedReportsById = () => {
     const fetchIssuedReports = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/report/fetchIssuedReports', {
+        const response = await axios.get('https://garbageguardian-backend.onrender.com/report/fetchIssuedReports', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
           },
@@ -39,7 +39,7 @@ const IssuedReportsById = () => {
   const handleCancelReport = async (reportId) => {
     setCancelLoadingId(reportId);
     try {
-      const response = await axios.delete(`http://localhost:3001/report/cancelIssuedReport/${reportId}`, {
+      const response = await axios.delete(`https://garbageguardian-backend.onrender.com/report/cancelIssuedReport/${reportId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

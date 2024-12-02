@@ -33,7 +33,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/auth/login', formData);
+      const response = await axios.post('https://garbageguardian-backend.onrender.com/auth/login', formData);
       
       // Store token in localStorage
       localStorage.setItem('token', response.data.token);

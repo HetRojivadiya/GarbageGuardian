@@ -26,7 +26,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/auth/signup', formData);
+      const response = await axios.post('https://garbageguardian-backend.onrender.com/auth/signup', formData);
       setMessage('Account created successfully!');
 
        // Show success toast

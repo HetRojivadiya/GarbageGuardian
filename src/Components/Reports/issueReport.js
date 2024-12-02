@@ -144,7 +144,7 @@ const ReportIssue = () => {
         data.append('images', formData.images[i]);
       }
 
-      const response = await axios.post('http://localhost:3001/report/issue', data, {
+      const response = await axios.post('https://garbageguardian-backend.onrender.com/report/issue', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

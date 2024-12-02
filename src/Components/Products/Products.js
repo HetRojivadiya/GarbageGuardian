@@ -37,7 +37,7 @@ const ProductDisplay = () => {
     // Fetch products from the API
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/sellRecyclingProducts/recycled-products');
+            const response = await axios.get('https://garbageguardian-backend.onrender.com/sellRecyclingProducts/recycled-products');
             setProducts(response.data.data);
             setFilteredProducts(response.data.data);
             setLoading(false);
@@ -71,7 +71,7 @@ const ProductDisplay = () => {
         };
 
         try {
-            await axios.delete(`http://localhost:3001/sellRecyclingProducts/recycled-products/${productId}`, config);
+            await axios.delete(`https://garbageguardian-backend.onrender.com/sellRecyclingProducts/recycled-products/${productId}`, config);
             fetchProducts();
         } catch (err) {
             console.error("Error deleting product:", err);
@@ -93,10 +93,10 @@ const ProductDisplay = () => {
 
             if (formData._id) {
                 // Update existing product
-                await axios.put(`http://localhost:3001/sellRecyclingProducts/recycled-products/${formData._id}`, data, config);
+                await axios.put(`https://garbageguardian-backend.onrender.com/sellRecyclingProducts/recycled-products/${formData._id}`, data, config);
             } else {
                 // Create new product
-                await axios.post('http://localhost:3001/sellRecyclingProducts/recycled-products', data, config);
+                await axios.post('https://garbageguardian-backend.onrender.com/sellRecyclingProducts/recycled-products', data, config);
             }
 
             setShowForm(false); // Close the form

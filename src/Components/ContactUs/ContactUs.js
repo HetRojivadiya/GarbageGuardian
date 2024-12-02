@@ -40,7 +40,7 @@ const ContactUs = () => {
 
     try {
       // Send POST request to backend
-      const response = await axios.post('http://localhost:3001/email/send-email', formData);
+      const response = await axios.post('https://garbageguardian-backend.onrender.com/email/send-email', formData);
 
       if (response.status === 200) {
         toast.success('Your message has been sent successfully!');

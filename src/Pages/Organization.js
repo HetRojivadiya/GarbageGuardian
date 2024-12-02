@@ -29,7 +29,7 @@ const OrganizationsPage = () => {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/organizations');
+        const response = await axios.get('https://garbageguardian-backend.onrender.com/organizations');
         setOrganizations(response.data.organizations);
         setFilteredOrganizations(response.data.organizations); // Set initial filtered organizations
         setAnalysis(response.data.analysis);
@@ -52,7 +52,7 @@ const OrganizationsPage = () => {
   // Function to verify organization
   const verifyOrganization = async (orgId) => {
     try {
-      await axios.patch(`http://localhost:3001/organizations/${orgId}/verify`, { status: 'Verified' });
+      await axios.patch(`https://garbageguardian-backend.onrender.com/organizations/${orgId}/verify`, { status: 'Verified' });
       setOrganizations((prev) =>
         prev.map((org) => (org._id === orgId ? { ...org, status: 'Verified' } : org))
       );
@@ -64,7 +64,7 @@ const OrganizationsPage = () => {
   // Function to set organization status to Pending
   const setPendingOrganization = async (orgId) => {
     try {
-      await axios.patch(`http://localhost:3001/organizations/${orgId}/verify`, { status: 'Pending' });
+      await axios.patch(`https://garbageguardian-backend.onrender.com/organizations/${orgId}/verify`, { status: 'Pending' });
       setOrganizations((prev) =>
         prev.map((org) => (org._id === orgId ? { ...org, status: 'Pending' } : org))
       );
